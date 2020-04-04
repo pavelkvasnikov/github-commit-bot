@@ -12,12 +12,10 @@ use std::io::Write;
 mod constants;
 use constants::*;
 mod config;
-use config::app_config;
+use config::app_config::check_config;
 use lazy_static::lazy_static;
 use git2::build::RepoBuilder;
 use std::path::Path;
-use std::process::exit;
-use std::borrow::Borrow;
 
 lazy_static! {
     static ref CONFIG: HashMap<String, String> = {
@@ -37,7 +35,7 @@ lazy_static! {
 #[tokio::main]
 async fn main() {
     let _logger_handle = initialize_logger();
-    config::app_config::check_config(CONFIG.clone());
+    check_config(CONFIG.clone());
 
     let mut interval = tokio::time::interval(Duration::from_millis(CONFIG[TIMEOUT].parse::<u64>().unwrap()));
 
