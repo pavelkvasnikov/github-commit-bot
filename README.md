@@ -2,12 +2,16 @@
 
 Simple bot which pushes commits to github adding a string to a specific file
 
-# instalattion
+
+# instalattion from source
 1) install Rust from https://rustup.rs/
 2) install git 
 3) clone this repo
 4) run `cargo build --release`
 5) run binary executable in `target/release/github-commit-bot`
+
+# download binary
+https://github.com/pavelkvasnikov/github-commit-bot/releases currently available only for Linux 
 
 # Usage
 
