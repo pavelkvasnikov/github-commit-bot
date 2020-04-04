@@ -12,3 +12,9 @@ log = "*"
 git2 = "*"
 log4rs = "0.11.0"
 lazy_static = "1.4.0"
+
+[profile.release]
+panic = 'abort'
+codegen-units = 1
+lto = true
+opt-level = 'z'
