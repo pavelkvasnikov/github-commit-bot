@@ -22,4 +22,4 @@ nohup ./github-commit-bot repo=git@github.com:username/reponame.git path=local_d
 bot writes to `log/default_log.log` file only, no stdout/stderr
 
 # FAQ
-No FAQ, ask qustions and request features vie issues
+No FAQ, ask qustions and request features via issues
