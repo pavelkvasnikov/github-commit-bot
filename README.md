@@ -24,3 +24,4 @@ if you need to change timeout it's in `main.rs:14 TIMEOUT`
 
 # FAQ
 No FAQ, ask qustions and request features vie issues
+
