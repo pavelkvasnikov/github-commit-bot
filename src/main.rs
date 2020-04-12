@@ -34,12 +34,12 @@ lazy_static! {
 
 #[tokio::main]
 async fn main() {
-    let _logger_handle = initialize_logger();
+    let logger_handle = initialize_logger();
     check_config(CONFIG.clone());
 
     let mut interval = tokio::time::interval(Duration::from_millis(CONFIG[TIMEOUT].parse::<u64>().unwrap()));
 
-    _logger_handle.await;
+    logger_handle.await;
 
     let path_string = &CONFIG[PATH];
     let path = Path::new(&path_string);
@@ -64,7 +64,7 @@ async fn main() {
         info!("Repo opened");
     }
 
-    let repo = try_repo.unwrap();
+    let repo = Repository::open(path).unwrap();
     let file_path = format!("{}/{}", CONFIG["path"], CONFIG["file"]);
     let file = OpenOptions::new()
         .read(true)
