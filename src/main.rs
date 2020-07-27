@@ -2,7 +2,6 @@
 
 use std::env;
 use std::collections::HashMap;
-use tokio::time::Duration;
 mod logger;
 use logger::logger::initialize_logger;
 use log::{info, warn};
@@ -16,6 +15,7 @@ use config::app_config::check_config;
 use lazy_static::lazy_static;
 use git2::build::RepoBuilder;
 use std::path::Path;
+use std::time::Duration;
 
 lazy_static! {
     static ref CONFIG: HashMap<String, String> = {
@@ -32,14 +32,10 @@ lazy_static! {
     };
 }
 
-#[tokio::main]
-async fn main() {
-    let logger_handle = initialize_logger();
+fn main() {
+    let _logger_handle = initialize_logger();
     check_config(CONFIG.clone());
-
-    let mut interval = tokio::time::interval(Duration::from_millis(CONFIG[TIMEOUT].parse::<u64>().unwrap()));
-
-    logger_handle.await;
+    let interval = Duration::from_millis(CONFIG[TIMEOUT].parse::<u64>().unwrap());
 
     let path_string = &CONFIG[PATH];
     let path = Path::new(&path_string);
@@ -56,7 +52,12 @@ async fn main() {
         builder.fetch_options(fetch_options);
         let try_clone = builder.clone(&CONFIG["repo"].clone(), path);
         if try_clone.is_err() {
-            warn!("error during cloning repo - {}", try_clone.err().unwrap().message());
+            let error = try_clone.err().unwrap();
+            warn!("error during cloning repo - {}", error.message());
+            panic!("\n\nError class {:?}\nError message {:?}\nError code {:?}\n\n",
+                   error.class(),
+                   error.message(),
+                   error.code());
         } else {
             info!("Cloned");
         }
@@ -82,8 +83,6 @@ async fn main() {
     po.remote_callbacks(rco);
 
     loop {
-        interval.tick().await;
-
         let write_result = unwrapped.write_all(b"\nnewline");
         info!("Wrote to file - {:?}", write_result.unwrap());
         let write_result = unwrapped.sync_all();
@@ -124,6 +123,7 @@ async fn main() {
         } else {
             warn!("Not pushed {}", push_result.err().unwrap().message());
         }
+        std::thread::sleep(interval);
     }
 }
 

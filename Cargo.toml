@@ -1,13 +1,12 @@
 [package]
 name = "github-commit-bot"
-version = "0.1.0"
+version = "0.2.0"
 authors = ["Pavel Kvasnikov <camokpyt@gmail.com>"]
 edition = "2018"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-tokio = { version = "0.2", features = ["full"] }
 log = "*"
 git2 = "*"
 log4rs = "0.11.0"

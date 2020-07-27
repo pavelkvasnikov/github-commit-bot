@@ -5,7 +5,7 @@ pub mod logger {
   use log4rs::append::file::FileAppender;
   use log4rs::encode::pattern::PatternEncoder;
   use log4rs::config::{Appender, Config, Root};
-  pub async fn initialize_logger() -> log4rs::Handle  {
+  pub fn initialize_logger() -> log4rs::Handle  {
 
     let default_log = FileAppender::builder()
         .encoder(Box::new(PatternEncoder::new("{d(%Y-%m-%d %H:%M:%S %Z)(utc)} - {m}{n}")))
