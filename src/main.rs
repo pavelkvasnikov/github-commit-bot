@@ -28,7 +28,6 @@ lazy_static! {
                 m.insert(params[0].to_string(), params[1].to_string());
             }
         }
-        m
     };
 }
 
